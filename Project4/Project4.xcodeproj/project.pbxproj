@@ -264,7 +264,7 @@
 				DEVELOPMENT_TEAM = Z95VW56SK2;
 				INFOPLIST_FILE = Project4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindboostapps.Project4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddresearch.Project4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -278,7 +278,7 @@
 				DEVELOPMENT_TEAM = Z95VW56SK2;
 				INFOPLIST_FILE = Project4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindboostapps.Project4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddresearch.Project4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -304,6 +304,7 @@
 				59715FA81E281C6C002A0EEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

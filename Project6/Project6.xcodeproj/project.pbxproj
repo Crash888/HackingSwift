@@ -264,7 +264,7 @@
 				DEVELOPMENT_TEAM = Z95VW56SK2;
 				INFOPLIST_FILE = Project6/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindboostapps.Project6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddresearch.Project6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -277,7 +277,7 @@
 				DEVELOPMENT_TEAM = Z95VW56SK2;
 				INFOPLIST_FILE = Project6/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindboostapps.Project6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddresearch.Project6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
