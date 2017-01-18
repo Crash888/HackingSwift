@@ -17,7 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        
+        //  1. Locate the rootViewController as UITabBarController
+        //       (Normally is a ViewController but because we embedded it is different
+        //  2. Get the reference to the Storyboard (to help find the ViewController
+        //  3. Find the ViewController we want to create using name "NavController"
+        //  4. Create a new tab bar item
+        //  5. Add the new ViewController to the viewcontrollers array
         if let tabBarController = window?.rootViewController as? UITabBarController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "NavController")

@@ -16,7 +16,14 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
+        let urlString: String
+            
+        if navigationController?.tabBarItem.tag == 0 {
+            urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
+        } else {
+            //  Only want 10000+ sigs
+            urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=10000&limit=100"
+        }
         
         if let url = URL(string: urlString) {
             if let data = try? Data(contentsOf: url) {
@@ -25,8 +32,14 @@ class ViewController: UITableViewController {
                 //  This means we are ok to parse
                 if json["metadata"]["responseInfo"]["status"].intValue == 200 {
                     parse(json: json)
+                } else {
+                    showError()
                 }
+            } else {
+                showError()
             }
+        } else {
+            showError()
         }
     }
 
@@ -64,6 +77,13 @@ class ViewController: UITableViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    func showError() {
+        let ac = UIAlertController(title: "Loading Error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
     }
 }
 
