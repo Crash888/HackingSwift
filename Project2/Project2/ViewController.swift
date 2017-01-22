@@ -3,7 +3,7 @@
 //  Project2
 //
 //  Created by D D on 2017-01-11.
-//  Copyright © 2017 Mind Boost Apps. All rights reserved.
+//  Copyright © 2017 D D. All rights reserved.
 //
 
 import UIKit
