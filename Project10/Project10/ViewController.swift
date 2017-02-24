@@ -26,13 +26,44 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return people.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Person ", for: indexPath) as! PersonCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Person", for: indexPath) as! PersonCell
+        
+        let person = people[indexPath.item]
+        
+        cell.name.text = person.name
+        
+        let path = getDocumentsDirectory().appendingPathComponent(person.image)
+        cell.imageView.image = UIImage(contentsOfFile: path.path)
+        
+        cell.imageView.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        cell.imageView.layer.borderWidth = 2
+        cell.imageView.layer.cornerRadius = 3
+        cell.layer.cornerRadius = 7
         
         return cell
+    }
+    
+    //  When selected throw up an alert box and allow the name to be changed
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let person = people[indexPath.item]
+        
+        let ac = UIAlertController(title: "Rename Person", message: nil, preferredStyle: .alert)
+        ac.addTextField()
+        
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        ac.addAction(UIAlertAction(title: "OK", style: .default) { [unowned self, ac] _ in
+            let newName = ac.textFields![0]
+            person.name = newName.text!
+            
+            self.collectionView?.reloadData()
+        })
+        
+        present(ac, animated: true)
     }
     
     func addNewPerson() {
