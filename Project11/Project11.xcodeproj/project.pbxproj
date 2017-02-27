@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		595C80451E64E316004D1906 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595C80441E64E316004D1906 /* Helper.swift */; };
+		595C80471E64E730004D1906 /* FireParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 595C80461E64E730004D1906 /* FireParticles.sks */; };
 		596D13B71E60C7D00015B7B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D13B61E60C7D00015B7B9 /* AppDelegate.swift */; };
 		596D13B91E60C7D00015B7B9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 596D13B81E60C7D00015B7B9 /* GameScene.sks */; };
 		596D13BD1E60C7D00015B7B9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D13BC1E60C7D00015B7B9 /* GameScene.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		595C80441E64E316004D1906 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		595C80461E64E730004D1906 /* FireParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticles.sks; sourceTree = "<group>"; };
 		596D13B31E60C7D00015B7B9 /* Project11.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project11.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		596D13B61E60C7D00015B7B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		596D13B81E60C7D00015B7B9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 			children = (
 				596D13B61E60C7D00015B7B9 /* AppDelegate.swift */,
 				596D13B81E60C7D00015B7B9 /* GameScene.sks */,
+				595C80461E64E730004D1906 /* FireParticles.sks */,
+				595C80441E64E316004D1906 /* Helper.swift */,
 				596D13BC1E60C7D00015B7B9 /* GameScene.swift */,
 				596D13BE1E60C7D00015B7B9 /* GameViewController.swift */,
 				596D13C01E60C7D00015B7B9 /* Main.storyboard */,
@@ -132,6 +138,7 @@
 			files = (
 				596D13C21E60C7D00015B7B9 /* Main.storyboard in Resources */,
 				596D13B91E60C7D00015B7B9 /* GameScene.sks in Resources */,
+				595C80471E64E730004D1906 /* FireParticles.sks in Resources */,
 				596D13C41E60C7D00015B7B9 /* Assets.xcassets in Resources */,
 				596D13C71E60C7D00015B7B9 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -147,6 +154,7 @@
 				596D13BD1E60C7D00015B7B9 /* GameScene.swift in Sources */,
 				596D13BF1E60C7D00015B7B9 /* GameViewController.swift in Sources */,
 				596D13B71E60C7D00015B7B9 /* AppDelegate.swift in Sources */,
+				595C80451E64E316004D1906 /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +318,7 @@
 				596D13CD1E60C7D00015B7B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
