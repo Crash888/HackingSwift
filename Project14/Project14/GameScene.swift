@@ -25,6 +25,8 @@ class GameScene: SKScene {
         }
     }
     
+    var numRounds = 0
+    
     override func didMove(to view: SKView) {
     
         let background = SKSpriteNode(imageNamed: "whackBackground")
@@ -55,6 +57,52 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
+        if let touch = touches.first {
+            
+            //  Where did the user touch the screen
+            let location = touch.location(in: self)
+            //  Get all nodes at that location
+            let tappedNodes = nodes(at: location)
+            
+            //  Now let's test them
+            for node in tappedNodes {
+                if node.name == "charFriend" {
+                    //  shouldn't have whacked this
+                    
+                    //  User tapped the penguin sprite which was added to the WhackSlot
+                    //  Therefore to get the slot we need to get the penguin sprite's parent
+                    let whackSlot = node.parent!.parent as! WhackSlot
+                    
+                    //  Make sure that the whackSlot is visible and not already hit
+                    if !whackSlot.isVisible { continue }
+                    if whackSlot.isHit { continue }
+                    
+                    whackSlot.hit()
+                    score -= 5
+                    
+                    run(SKAction.playSoundFileNamed("whackBad.caf", waitForCompletion: false))
+                    
+                } else if node.name == "charEnemy" {
+                    //  Got the right one
+                    
+                    //  User tapped the penguin sprite which was added to the WhackSlot
+                    //  Therefore to get the slot we need to get the penguin sprite's parent
+                    let whackSlot = node.parent!.parent as! WhackSlot
+                    
+                    //  Make sure that the whackSlot is visible and not already hit
+                    if !whackSlot.isVisible { continue }
+                    if whackSlot.isHit { continue }
+                    
+                    whackSlot.charNode.xScale = 0.85
+                    whackSlot.charNode.yScale = 0.85
+                    
+                    whackSlot.hit()
+                    score += 1
+                    
+                    run(SKAction.playSoundFileNamed("whack.caf", waitForCompletion: false))
+                }
+            }
+        }
     }
     
     func createSlot(at position: CGPoint) {
@@ -70,6 +118,23 @@ class GameScene: SKScene {
     }
     
     func createEnemy() {
+        
+        numRounds += 1
+        
+        //  End the game after 30 rounds
+        if numRounds >= 30 {
+            for slot in slots {
+                slot.hide()
+            }
+            
+            let gameOver = SKSpriteNode(imageNamed: "gameOver")
+            gameOver.position = CGPoint(x: 512, y: 384)
+            gameOver.zPosition = 1
+            addChild(gameOver)
+            
+            return
+        }
+        
         //  Increase the popup time as each enemy is shown.  Making the
         //  game a little faster with each popup
         popupTime *= 0.991

@@ -50,6 +50,10 @@ class WhackSlot: SKNode {
         //  If it is already visible then don't show again
         if isVisible { return }
         
+        //  Reset each time shown
+        charNode.xScale = 1
+        charNode.yScale = 1
+        
         //  Move the penguin and set the vars
         charNode.run(SKAction.moveBy(x: 0, y: 80, duration: 0.05))
         isVisible = true
@@ -80,8 +84,11 @@ class WhackSlot: SKNode {
     func hit() {
         isHit = true
         
+        //  Wait a slight bit of time
         let delay = SKAction.wait(forDuration: 0.25)
+        //  Move the penguin down
         let hide = SKAction.moveBy(x: 0, y: -80, duration: 0.5)
+        //  Set visible to false
         let notVisible = SKAction.run { [unowned self] in self.isVisible = false }
         
         //  Run the above in sequence
