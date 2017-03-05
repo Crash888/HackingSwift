@@ -49,6 +49,12 @@ class ActionViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
         
+        //  Setup notification to adjust the keyboard when the text gets too close
+        //  Observer both the WillHide and WillChangeFrame events to deal with this
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+        
         /*  Code supplied by Xcode
         // Get the item[s] we're handling from the extension context.
         
@@ -88,10 +94,55 @@ class ActionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func done() {
+    func done() {
         // Return any edited content to the host app.
-        // This template doesn't do anything, so we just echo the passed in items.
-        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
+        
+        //  In our case we are returning the text the user typed into the UITextView
+        
+        //  NSExtensionItem to host our items
+        let item = NSExtensionItem()
+        
+        //  New Dictionary to hold our items (in this case 1 item....our text
+        let argument: NSDictionary = ["customJavaScript": script.text]
+        
+        //  Now put our dictionary in another special dictionary that will pass our dictionary
+        //  back to the JS finalize method
+        let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
+        
+        //  Place that finalize dictionary into a NSItemProvider as its attachments
+        let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
+        item.attachments = [customJavaScript]
+        
+        //  Now return the items
+        self.extensionContext!.completeRequest(returningItems: [item], completionHandler: nil)
+    }
+    
+    
+    //  Adjust the frame so the text is not covered by the keyboard
+    func adjustForKeyboard(notification: Notification) {
+        let userInfo = notification.userInfo!
+        
+        //  This tells us the frame of the keyboard after animation complete
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        
+        //  Convert the keyboard frame to our view's co-ordinates
+        //  Needed because rotation is not factored into the frame.  The convert method fixes that
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        
+        //  Indent the edges of the textView so it appears to take up less space even though 
+        //  the constraints are still to the edge of the view
+        if notification.name == Notification.Name.UIKeyboardWillHide {
+            script.contentInset = UIEdgeInsets.zero
+        } else {
+            script.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        }
+        
+        script.scrollIndicatorInsets = script.contentInset
+        
+        //  Make the textView scroll so the text entry cursor is visible
+        let selectedRange = script.selectedRange
+        script.scrollRangeToVisible(selectedRange)
     }
 
 }

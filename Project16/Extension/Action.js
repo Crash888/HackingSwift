@@ -9,7 +9,10 @@ run: function(parameters) {
     
 //  Called after the extension is run
 finalize: function(parameters) {
-    
+
+    //  'customJavaScript' is the dictionary we created in ActionViewController.swift
+    var customJavaScript = parameters["customJavaScript"];
+    eval(customJavaScript);
 }
     
 };
