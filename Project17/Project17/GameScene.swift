@@ -25,6 +25,12 @@ class GameScene: SKScene {
     var activeSliceBG: SKShapeNode!
     var activeSliceFG: SKShapeNode!
     
+    //  Store the currently active slice points
+    var activeSlicePoints = [CGPoint]()
+    
+    //  Used for the swoosh audio
+    var isSwooshSoundActive = false
+    
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "sliceBackground")
         background.position = CGPoint(x: 512, y: 384)
@@ -45,9 +51,63 @@ class GameScene: SKScene {
         
     }
     
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        super.touchesBegan(touches, with: event)
+        
+        //  With new touch we remove all other touches first
+        activeSlicePoints.removeAll(keepingCapacity: true)
+        
+        //  Get touch location and add to array
+        if let touch = touches.first {
+            let location = touch.location(in: self)
+            activeSlicePoints.append(location)
+            
+            //  Clear the slice shapes
+            redrawActiveSlice()
+            
+            //  Remove any actions associated with slice shapres
+            activeSliceBG.removeAllActions()
+            activeSliceFG.removeAllActions()
+            
+            //  Make slice shape visible
+            activeSliceBG.alpha = 1
+            activeSliceFG.alpha = 1
+        }
+    }
+    
+    //  Find out where the user touched and store the point
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        guard let touch = touches.first else { return }
+        
+        let location = touch.location(in: self)
+        
+        activeSlicePoints.append(location)
+        
+        redrawActiveSlice()
+        
+        //  Sound effects time
+        if !isSwooshSoundActive {
+            playSwooshSound()
+        }
+    }
+    
+    //  Called when the user finishes touching the screen
+    //  Will fade out the slice over 0.25 seconds
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        activeSliceBG.run(SKAction.fadeOut(withDuration: 0.25))
+        activeSliceFG.run(SKAction.fadeOut(withDuration: 0.25))
+        
+    }
+    
+    //  Called when the touch is system interrupted
+    override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
+        
+        if let touches = touches {
+            touchesEnded(touches, with: event)
+        }
     }
     
     //  Score label
@@ -98,6 +158,54 @@ class GameScene: SKScene {
         
         addChild(activeSliceBG)
         addChild(activeSliceFG)
+    }
+    
+    //  Create a line that connects swipe points
+    func redrawActiveSlice() {
+        
+        //  First check that we have more than two points in the array
+        //  if not then leave (as we do not have enough data)
+        if activeSlicePoints.count < 2 {
+            activeSliceFG.path = nil
+            activeSliceBG.path = nil
+        }
+        
+        //  We want a maximum of 12 slice points in the array
+        //  make sure to remove the older ones
+        while activeSlicePoints.count > 12 {
+            //  Index 0 is always the oldest point
+            activeSlicePoints.remove(at: 0)
+        }
+        
+        // Start a line at the first point and go through all other points
+        let path = UIBezierPath()
+        path.move(to: activeSlicePoints[0])
+        
+        for i in 1 ..< activeSlicePoints.count {
+            path.addLine(to: activeSlicePoints[i])
+        }
+        
+        //  Update slice shape paths with our design
+        activeSliceBG.path = path.cgPath
+        activeSliceFG.path = path.cgPath
+        
+    }
+    
+    //  For the slicing sound effect
+    func playSwooshSound() {
+        
+        isSwooshSoundActive = true
+        
+        //  Three swoosh sounds are available.  Randomly choose 1 each time
+        let randomNumber = RandomInt(min: 1, max: 3)
+        let soundName = "swoosh\(randomNumber).caf"
+        
+        let swooshSound = SKAction.playSoundFileNamed(soundName, waitForCompletion: true)
+        
+        //  Play the sound
+        run(swooshSound) { [unowned self] in
+            self.isSwooshSoundActive = false
+        }
     }
     
 }

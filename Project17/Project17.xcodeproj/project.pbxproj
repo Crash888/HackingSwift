@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5975FE721E726F2400FC165A /* swoosh1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 59ACC2591E7117CC0006AFD5 /* swoosh1.caf */; };
+		5975FE731E726F2700FC165A /* swoosh2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 59ACC25A1E7117CC0006AFD5 /* swoosh2.caf */; };
+		5975FE741E726F2B00FC165A /* swoosh3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 59ACC25B1E7117CC0006AFD5 /* swoosh3.caf */; };
 		59ACC23F1E7117010006AFD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ACC23E1E7117010006AFD5 /* AppDelegate.swift */; };
 		59ACC2411E7117010006AFD5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 59ACC2401E7117010006AFD5 /* GameScene.sks */; };
 		59ACC2431E7117010006AFD5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 59ACC2421E7117010006AFD5 /* Actions.sks */; };
@@ -169,6 +172,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5975FE741E726F2B00FC165A /* swoosh3.caf in Resources */,
+				5975FE731E726F2700FC165A /* swoosh2.caf in Resources */,
 				59ACC24A1E7117010006AFD5 /* Main.storyboard in Resources */,
 				59ACC2411E7117010006AFD5 /* GameScene.sks in Resources */,
 				59ACC24C1E7117010006AFD5 /* Assets.xcassets in Resources */,
@@ -177,6 +182,7 @@
 				59ACC2651E7118150006AFD5 /* sliceHitBomb.sks in Resources */,
 				59ACC2431E7117010006AFD5 /* Actions.sks in Resources */,
 				59ACC2641E7118150006AFD5 /* sliceFuse.sks in Resources */,
+				5975FE721E726F2400FC165A /* swoosh1.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +360,7 @@
 				59ACC2551E7117010006AFD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
