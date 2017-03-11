@@ -8,6 +8,17 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+
+//  Decide when bomb should be created
+enum ForceBomb {
+    case never, always, random
+}
+
+//  Ways that enemies can be created
+enum SequenceType: Int {
+    case oneNoBomb, one, twoWithOneBomb, two, three, four, chain, fastChain
+}
 
 class GameScene: SKScene {
     
@@ -30,6 +41,20 @@ class GameScene: SKScene {
     
     //  Used for the swoosh audio
     var isSwooshSoundActive = false
+    
+    //  Bomb sound effect
+    var bombSoundEffect: AVAudioPlayer!
+    
+    //  Keep track of enemies currently on screen
+    var activeEnemies = [SKSpriteNode]()
+    
+    //  Properties to launch enemies
+    var popupTime = 0.9  //  Time to wait between enemies
+    var sequence: [SequenceType]!
+    var sequencePosition = 0  //  Where we are in the current sequence
+    var chainDelay = 3.0  //  Enemy creation time for chain for fastChain
+    var nextSequenceQueued = true  //  Let's us know when all enemies destroyed
+    
     
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "sliceBackground")
@@ -107,6 +132,27 @@ class GameScene: SKScene {
         
         if let touches = touches {
             touchesEnded(touches, with: event)
+        }
+    }
+    
+    //  Called for every frame before it is drawn
+    override func update(_ currentTime: TimeInterval) {
+        var bombCount = 0
+        
+        //  Count the bombs on screen
+        for node in activeEnemies {
+            if node.name == "bombContainer" {
+                bombCount += 1
+                break
+            }
+        }
+        
+        if bombCount == 0 {
+            //  No bombs so sound should stop
+            if bombSoundEffect != nil {
+                bombSoundEffect.stop()
+                bombSoundEffect = nil
+            }
         }
     }
     
@@ -208,4 +254,158 @@ class GameScene: SKScene {
         }
     }
     
+    //  Create an enemy to show on screen
+    func createEnemy(forceBomb: ForceBomb = .random) {
+        
+        var enemy: SKSpriteNode
+        
+        //  Randomly generate enemy type
+        var enemyType = RandomInt(min: 0, max: 6)
+        
+        //  Override the random for specific cases
+        if forceBomb == .never {
+            enemyType = 1
+        } else if forceBomb == .always {
+            enemyType = 0
+        }
+        
+        if enemyType == 0 {
+            //  bomb
+            
+            //  New Sprite node to hold bomb and fuse as children
+            enemy = SKSpriteNode()
+            enemy.zPosition = 1
+            enemy.name = "bombContainer"
+            
+            //  Create the bomb image and add to container
+            let bombImage = SKSpriteNode(imageNamed: "sliceBomb")
+            bombImage.name = "bomb"
+            enemy.addChild(bombImage)
+            
+            //  Stop any current bomb sound effects
+            if bombSoundEffect != nil {
+                bombSoundEffect.stop()
+                bombSoundEffect = nil
+            }
+            
+            //  Create new bomb sound effect
+            let path = Bundle.main.path(forResource: "sliceBombFuse.caf", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            let sound = try! AVAudioPlayer(contentsOf: url)
+            bombSoundEffect = sound
+            sound.play()
+            
+            //  Now create the fuse and add to the container
+            let emitter = SKEmitterNode(fileNamed: "sliceFuse")!
+            emitter.position = CGPoint(x: 76, y: 64)
+            enemy.addChild(emitter)
+            
+        } else {
+            enemy = SKSpriteNode(imageNamed: "penguin")
+            run(SKAction.playSoundFileNamed("launch.caf", waitForCompletion: false))
+            enemy.name = "enemy"
+        }
+        
+        //  position code
+        //  Create random position at bottom of screen
+        let randomPosition = CGPoint(x: RandomInt(min: 64, max: 960), y: -128)
+        enemy.position = randomPosition
+        
+        //  Now add angular velocity (ie. spinning speed)
+        let randomAngularVelocity = CGFloat(RandomInt(min: -6, max: 6)) / 2.0
+        
+        //  Random X Velocity (horizontal movement)
+        var randomXVelocity = 0
+        
+        if randomPosition.x < 256 {
+            randomXVelocity = RandomInt(min: 8, max: 15)
+        } else if randomPosition.x < 512 {
+            randomXVelocity = RandomInt(min: 3, max: 5)
+        } else if randomPosition.x < 768 {
+            randomXVelocity = RandomInt(min: 3, max: 5)
+        } else {
+            randomXVelocity = RandomInt(min: 8, max: 15)
+        }
+        
+        //  Random Y velocity for flying at different speeds
+        let randomYVelocity = RandomInt(min: 24, max: 32)
+        
+        //  Objects have circular physics body and don't hit each other
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: 64)
+        enemy.physicsBody!.velocity = CGVector(dx: randomXVelocity * 40, dy: randomYVelocity * 40)
+        enemy.physicsBody!.angularVelocity = randomAngularVelocity
+        enemy.physicsBody!.collisionBitMask = 0
+        
+        addChild(enemy)
+        activeEnemies.append(enemy)
+    }
+    
+    //  Throw up an enemy to be sliced
+    func tossEnemies() {
+        
+        //  Speed everything up a bit with each toss
+        popupTime *= 0.991
+        chainDelay *= 0.99
+        physicsWorld.speed *= 1.02
+        
+        let sequenceType = sequence[sequencePosition]
+        
+        switch sequenceType {
+        case .oneNoBomb:
+            createEnemy(forceBomb: .never)
+        case .one:
+            createEnemy()
+        case .twoWithOneBomb:
+            createEnemy(forceBomb: .never)
+            createEnemy(forceBomb: .always)
+        case .two:
+            createEnemy()
+            createEnemy()
+        case .three:
+            createEnemy()
+            createEnemy()
+            createEnemy()
+        case .four:
+            createEnemy()
+            createEnemy()
+            createEnemy()
+            createEnemy()
+        case .chain:
+            createEnemy()
+            
+            //  Launch next enemy after a short delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 5.0)) {
+                    [unowned self] in self.createEnemy()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 5.0 * 2)) {
+                [unowned self] in self.createEnemy()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 5.0 * 3)) {
+                [unowned self] in self.createEnemy()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 5.0 * 4)) {
+                [unowned self] in self.createEnemy()
+            }
+        case .fastChain:
+            createEnemy()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 10.0)) {
+                [unowned self] in self.createEnemy()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 10.0 * 2)) {
+                [unowned self] in self.createEnemy()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 10.0 * 3)) {
+                [unowned self] in self.createEnemy()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 10.0 * 4)) {
+                [unowned self] in self.createEnemy()
+            }
+            
+        }
+        
+        sequencePosition += 1
+        
+        nextSequenceQueued = false
+    }
 }
