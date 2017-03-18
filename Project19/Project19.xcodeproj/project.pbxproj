@@ -13,6 +13,7 @@
 		597A253F1E75227D0056E59D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 597A253E1E75227D0056E59D /* Assets.xcassets */; };
 		597A25421E75227D0056E59D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 597A25401E75227D0056E59D /* LaunchScreen.storyboard */; };
 		597A254B1E75233C0056E59D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 597A254A1E75233C0056E59D /* MapKit.framework */; };
+		597B320A1E7CFD77002EC447 /* Capital.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B32091E7CFD77002EC447 /* Capital.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		597A25411E75227D0056E59D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		597A25431E75227D0056E59D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		597A254A1E75233C0056E59D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		597B32091E7CFD77002EC447 /* Capital.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Capital.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				597A25371E75227D0056E59D /* AppDelegate.swift */,
 				597A25391E75227D0056E59D /* ViewController.swift */,
+				597B32091E7CFD77002EC447 /* Capital.swift */,
 				597A253B1E75227D0056E59D /* Main.storyboard */,
 				597A253E1E75227D0056E59D /* Assets.xcassets */,
 				597A25401E75227D0056E59D /* LaunchScreen.storyboard */,
@@ -156,6 +159,7 @@
 			files = (
 				597A253A1E75227D0056E59D /* ViewController.swift in Sources */,
 				597A25381E75227D0056E59D /* AppDelegate.swift in Sources */,
+				597B320A1E7CFD77002EC447 /* Capital.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +321,7 @@
 				597A25481E75227D0056E59D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
