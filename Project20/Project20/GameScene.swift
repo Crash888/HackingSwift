@@ -177,4 +177,48 @@ class GameScene: SKScene {
         
     }
     
+    func explode(firework: SKNode) {
+        
+        //  Create explosion where firework is.
+        let emitter = SKEmitterNode(fileNamed: "explode")!
+        emitter.position = firework.position
+        addChild(emitter)
+        
+        //  Remove the firework from the scene
+        firework.removeFromParent()
+    }
+    
+    func explodeFireworks() {
+        var numExploded = 0
+        
+        for (index, fireworkContainer) in fireworks.enumerated().reversed() {
+            let firework = fireworkContainer.children[0] as! SKSpriteNode
+            
+            //  Blow up all the selected fireworks
+            if firework.name == "selected" {
+                
+                //destroy the firework
+                explode(firework: fireworkContainer)
+                fireworks.remove(at: index)
+                numExploded += 1
+            }
+        }
+        
+        switch numExploded {
+        case 0:
+            //  nothing
+            break
+        case 1:
+            score += 200
+        case 2:
+            score += 500
+        case 3:
+            score += 1500
+        case 4:
+            score += 2500
+        default:
+            score += 4000
+        }
+    }
+    
 }

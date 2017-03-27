@@ -52,4 +52,11 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    //  Detect shaking motion of iPad.  If shake happens then explode the fireworks
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        let skView = view as! SKView
+        let gameScene = skView.scene as! GameScene
+        gameScene.explodeFireworks()
+    }
 }
