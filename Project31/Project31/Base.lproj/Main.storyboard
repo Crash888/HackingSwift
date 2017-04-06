@@ -21,21 +21,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jYD-ZI-kkm">
-                                <rect key="frame" x="16" y="105" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jYD-ZI-kkm">
+                                <rect key="frame" x="5" y="69" width="365" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="7WP-gb-X52"/>
+                                </connections>
                             </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JhD-63-WUE">
-                                <rect key="frame" x="68" y="267" width="200" height="110"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="JhD-63-WUE">
+                                <rect key="frame" x="0.0" y="104" width="375" height="563"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jYD-ZI-kkm" secondAttribute="trailing" constant="5" id="7vb-l5-c2j"/>
+                            <constraint firstAttribute="trailing" secondItem="JhD-63-WUE" secondAttribute="trailing" id="ETc-dm-tt3"/>
+                            <constraint firstItem="jYD-ZI-kkm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="Nym-Tk-K7f"/>
+                            <constraint firstItem="JhD-63-WUE" firstAttribute="top" secondItem="jYD-ZI-kkm" secondAttribute="bottom" constant="5" id="Q1o-tB-9NM"/>
+                            <constraint firstItem="JhD-63-WUE" firstAttribute="top" secondItem="jYD-ZI-kkm" secondAttribute="bottom" constant="5" id="XXg-bj-LZs"/>
+                            <constraint firstItem="jYD-ZI-kkm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="5" id="hzP-pl-dFp"/>
+                            <constraint firstItem="JhD-63-WUE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="pQh-qq-Mds"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JhD-63-WUE" secondAttribute="bottom" id="xPh-h4-Lcz"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9Ws-it-Kca"/>
+                    <connections>
+                        <outlet property="addressBar" destination="jYD-ZI-kkm" id="OTv-uZ-e9c"/>
+                        <outlet property="stackView" destination="JhD-63-WUE" id="rXy-37-ypu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
