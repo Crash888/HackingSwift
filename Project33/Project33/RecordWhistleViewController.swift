@@ -30,6 +30,7 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Record", style: .plain, target: nil, action: nil)
         
+        
         //  New Audio Session
         recordingSession = AVAudioSession.sharedInstance()
         

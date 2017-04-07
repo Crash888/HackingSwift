@@ -17,6 +17,9 @@
 		597B388F1E96F4D800C2F9D4 /* AddCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B388E1E96F4D800C2F9D4 /* AddCommentsViewController.swift */; };
 		597B38911E96F6FD00C2F9D4 /* SubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B38901E96F6FD00C2F9D4 /* SubmitViewController.swift */; };
 		597B38991E96FA0D00C2F9D4 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 597B38981E96FA0D00C2F9D4 /* CloudKit.framework */; };
+		598EBFFB1E980E9800BCEA54 /* Whistle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598EBFFA1E980E9800BCEA54 /* Whistle.swift */; };
+		598EBFFD1E9815CD00BCEA54 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598EBFFC1E9815CD00BCEA54 /* ResultsViewController.swift */; };
+		598EBFFF1E98230C00BCEA54 /* MyGenresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598EBFFE1E98230C00BCEA54 /* MyGenresViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +36,9 @@
 		597B38901E96F6FD00C2F9D4 /* SubmitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitViewController.swift; sourceTree = "<group>"; };
 		597B38921E96F92800C2F9D4 /* Project33.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Project33.entitlements; sourceTree = "<group>"; };
 		597B38981E96FA0D00C2F9D4 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		598EBFFA1E980E9800BCEA54 /* Whistle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Whistle.swift; sourceTree = "<group>"; };
+		598EBFFC1E9815CD00BCEA54 /* ResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		598EBFFE1E98230C00BCEA54 /* MyGenresViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGenresViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +76,10 @@
 				597B38921E96F92800C2F9D4 /* Project33.entitlements */,
 				597B38781E96C5D200C2F9D4 /* AppDelegate.swift */,
 				597B387A1E96C5D200C2F9D4 /* ViewController.swift */,
+				598EBFFC1E9815CD00BCEA54 /* ResultsViewController.swift */,
+				598EBFFE1E98230C00BCEA54 /* MyGenresViewController.swift */,
 				597B387C1E96C5D200C2F9D4 /* Main.storyboard */,
+				598EBFFA1E980E9800BCEA54 /* Whistle.swift */,
 				597B387F1E96C5D200C2F9D4 /* Assets.xcassets */,
 				597B38811E96C5D200C2F9D4 /* LaunchScreen.storyboard */,
 				597B38841E96C5D200C2F9D4 /* Info.plist */,
@@ -175,8 +184,11 @@
 				597B388F1E96F4D800C2F9D4 /* AddCommentsViewController.swift in Sources */,
 				597B38791E96C5D200C2F9D4 /* AppDelegate.swift in Sources */,
 				597B388B1E96C70B00C2F9D4 /* RecordWhistleViewController.swift in Sources */,
+				598EBFFF1E98230C00BCEA54 /* MyGenresViewController.swift in Sources */,
+				598EBFFB1E980E9800BCEA54 /* Whistle.swift in Sources */,
 				597B38911E96F6FD00C2F9D4 /* SubmitViewController.swift in Sources */,
 				597B388D1E96F2F400C2F9D4 /* SelectGenreTableViewController.swift in Sources */,
+				598EBFFD1E9815CD00BCEA54 /* ResultsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +354,7 @@
 				597B38891E96C5D200C2F9D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
