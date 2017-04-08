@@ -16,7 +16,7 @@ enum ChipColor: Int {
     case black
 }
 
-class Board: NSObject {
+class Board: NSObject, GKGameModel {
 
     static var width = 7
     static var height = 6
@@ -25,6 +25,15 @@ class Board: NSObject {
     var slots = [ChipColor]()
     
     var currentPlayer: Player
+    
+    
+    //  To conform to the GKModelProtocol
+    var players: [GKGameModelPlayer]? {
+        return Player.allPlayers
+    }
+    var activePlayer: GKGameModelPlayer? {
+        return currentPlayer
+    }
     
     override init() {
         
@@ -125,5 +134,78 @@ class Board: NSObject {
         if chip(inColumn: col + (moveX * 3), row: row + (moveY * 3)) != initialChip { return false }
         
         return true
+    }
+    
+    //  Implementing NSCopying protocol.  Allows you to take
+    //  a copy of board
+    //  As GameplayKit decides a move by copying the board many times
+    //  and then applying a move.  This will be used a lot
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Board()
+        //  Fill in the board slots
+        copy.setGameModel(self)
+        return copy
+    }
+    
+    //  Copy across the slot data from the current board
+    func setGameModel(_ gameModel: GKGameModel) {
+        if let board = gameModel as? Board {
+            slots = board.slots
+            currentPlayer = board.currentPlayer
+        }
+    }
+    
+    //  After the board is setup GameplayKit needs to know what possible
+    //  moves are available to be made.  So, this function tells it.
+    func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
+        
+        //  Cast the GKGameModelPlayer to Player
+        if let playerObject = player as? Player {
+            
+            //  If someone has one then return no moves available
+            if isWin(for: playerObject) || isWin(for: playerObject.opponent) {
+                return nil
+            }
+            
+            //  Var to hold all valid Move objects
+            var moves = [Move]()
+            
+            //  Go through all the columns to see if a move is allowed
+            for column in 0 ..< Board.width {
+                if canMove(in: column) {
+                    //  Create the new Move object
+                    moves.append(Move(column: column))
+                }
+            }
+            
+            //  Return the possible moves
+            return moves
+        }
+        
+        return nil
+    }
+    
+    //  Now the AI needs to try each move and see what happens
+    func apply(_ gameModelUpdate: GKGameModelUpdate) {
+        if let move = gameModelUpdate as? Move {
+            add(chip: currentPlayer.chip, in: move.column)
+            currentPlayer = currentPlayer.opponent
+        }
+    }
+    
+    //  Now the AI wants to know whether the move was good or not
+    //  Since, our game has no score but win or lose the move can have
+    //  three values.  1000 if move means the AI wins, -1000 if
+    //  the opponent wins and 0 for everythng else
+    func score(for player: GKGameModelPlayer) -> Int {
+        if let playerObject = player as? Player {
+            if isWin(for: playerObject) {
+                return 1000
+            } else if isWin(for: playerObject.opponent) {
+                return -1000
+            }
+        }
+        
+        return 0
     }
 }

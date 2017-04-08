@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GameplayKit
 
 class ViewController: UIViewController {
 
@@ -16,6 +17,9 @@ class ViewController: UIViewController {
     var placedChips = [[UIView]]()
     var board: Board!
     
+    //  Holds the AI strategy
+    var strategist: GKMinmaxStrategist!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -24,6 +28,16 @@ class ViewController: UIViewController {
         for _ in 0 ..< Board.width {
             placedChips.append([UIView]())
         }
+        
+        //  Setup the AI Player
+        strategist = GKMinmaxStrategist()
+        //  Careful with this number as increasing gets exponentially slower
+        strategist.maxLookAheadDepth = 7
+        //  If more than one move result in a tie score then just
+        //  return the first move (as opposed to a random move)
+        //  Random best move would be....
+        //       strategist.randomSouce = GKARC4RandomSource()
+        strategist.randomSource = nil
         
         //  Initialize the board
         resetBoard()
@@ -48,6 +62,9 @@ class ViewController: UIViewController {
 
     func resetBoard() {
         board = Board()
+        
+        //  Feed the board to the AI
+        strategist.gameModel = board
         
         //  Show the correct title in the UI
         updateUI()
@@ -114,6 +131,10 @@ class ViewController: UIViewController {
     //  Update the UI to show who's turn it is
     func updateUI () {
         title = "\(board.currentPlayer.name)'s turn"
+        
+        if board.currentPlayer.chip == .black {
+            startAIMove()
+        }
     }
     
     //  Call after each move to determine state
@@ -147,6 +168,62 @@ class ViewController: UIViewController {
         board.currentPlayer = board.currentPlayer.opponent
         
         updateUI()
+    }
+    
+    //  Function for AI to find best move.  Could take a while so
+    //  we will want to run this on a background thread
+    func columnForAIMove() -> Int? {
+        if let aiMove = strategist.bestMove(for: board.currentPlayer) as? Move {
+            return aiMove.column
+        }
+        
+        return nil
+    }
+    
+    //  AI is ready to make a real move.  Call this on the main thread to make this happen
+    func makeAIMove(in column: Int) {
+        
+        //  Give control back to the user
+        //  That is....enable all buttons and remove the spinner
+        columnButtons.forEach { $0.isEnabled = true }
+        navigationItem.leftBarButtonItem = nil
+        
+        if let row = board.nextEmptySlot(in: column) {
+            board.add(chip: board.currentPlayer.chip, in: column)
+            addChip(inColumn: column, row: row, color: board.currentPlayer.color)
+            
+            continueGame()
+        }
+    }
+    
+    //  Call the AI methods to make a move
+    func startAIMove() {
+        
+        //  Disable all buttons while AI is thinking
+        columnButtons.forEach { $0.isEnabled = false }
+        
+        //  Show a spinner to indicate the AI is thinking
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        spinner.startAnimating()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: spinner)
+        
+        //  Start with abackground thread to evaluate moves
+        DispatchQueue.global().async { [unowned self] in
+            let strategistTime = CFAbsoluteTimeGetCurrent()
+            let column = self.columnForAIMove()!
+            let delta = CFAbsoluteTimeGetCurrent() - strategistTime
+            
+            //  Make AI take a minimum of 1 second to make a move
+            //  Makes it feel a bit better to the real player
+            let aiTimeCeiling = 1.0
+            let delay = min(aiTimeCeiling - delta, aiTimeCeiling)
+            
+            //  Now make the real move on the main queue
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                self.makeAIMove(in: column)
+            }
+        }
     }
 }
 
