@@ -13,11 +13,21 @@ class GameScene: SKScene {
     
     var player: SKSpriteNode!
     
+    var scoreLabel: SKLabelNode!
+    
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "SCORE: \(score)"
+        }
+    }
+    
     override func didMove(to view: SKView) {
         createPlayer()
         createSky()
         createBackground()
         createGround()
+        startRocks()
+        createScore()
     }
     
     
@@ -101,4 +111,80 @@ class GameScene: SKScene {
             ground.run(moveForever)
         }
     }
+    
+    //  Control the timing of the rock objects
+    func startRocks() {
+        let create = SKAction.run { [unowned self] in
+            self.createRocks()
+        }
+        
+        //  Launch new rocks every 3 seconds
+        let wait = SKAction.wait(forDuration: 3)
+        let sequence = SKAction.sequence([create, wait])
+        let repeatForever = SKAction.repeatForever(sequence)
+        
+        run(repeatForever)
+    }
+    
+    //  Create the rock objects that the plane needs to avoid
+    func createRocks() {
+        let rockTexture = SKTexture(imageNamed: "rock")
+        
+        //  Create a top rock and a bottom rock
+        //  Top rock if a flipped over version of the rock image
+        let topRock = SKSpriteNode(texture: rockTexture)
+        topRock.zRotation = CGFloat.pi
+        topRock.xScale = -1.0
+        
+        let bottomRock = SKSpriteNode(texture: rockTexture)
+        
+        topRock.zPosition = -20
+        bottomRock.zPosition = -20
+        
+        //  Create a sprite after the rocks to detect a player passing the rocks
+        //  successfully
+        let rockCollision = SKSpriteNode(color: UIColor.red, size: CGSize(width: 32, height: frame.height))
+        rockCollision.name = "scoreDetect"
+        
+        addChild(topRock)
+        addChild(bottomRock)
+        addChild(rockCollision)
+        
+        //  Determione the 'safe' range beetween the rocks
+        let xPosition = frame.width + topRock.frame.width
+        
+        let max = Int(frame.height / 3)
+        let rand = GKRandomDistribution(lowestValue: -100, highestValue: max)
+        let yPosition = CGFloat(rand.nextInt())
+        
+        //  This value is for the width between the rocks.  Smaller value will
+        //  make the game harder
+        let rockDistance: CGFloat = 70
+        
+        //  Position the rocks just off the right edge of the screen
+        topRock.position = CGPoint(x: xPosition, y: yPosition + topRock.size.height + rockDistance)
+        bottomRock.position = CGPoint(x: xPosition, y: yPosition - rockDistance)
+        rockCollision.position = CGPoint(x: xPosition + (rockCollision.size.width * 2), y: frame.midY)
+        
+        let endPosition = frame.width + (topRock.frame.width * 2)
+        
+        let moveAction = SKAction.moveBy(x: -endPosition, y: 0, duration: 6.2)
+        let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
+        topRock.run(moveSequence)
+        bottomRock.run(moveSequence)
+        rockCollision.run(moveSequence)
+    }
+    
+    func createScore() {
+        scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
+        scoreLabel.fontSize = 24
+        
+        scoreLabel.position = CGPoint(x: frame.maxX - 20, y: frame.maxY - 40)
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.text = "SCORE: 0"
+        scoreLabel.fontColor = UIColor.black
+        
+        addChild(scoreLabel)
+    }
+    
 }
