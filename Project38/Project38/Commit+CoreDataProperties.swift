@@ -2,7 +2,7 @@
 //  Commit+CoreDataProperties.swift
 //  Project38
 //
-//  Created by D D on 2017-04-10.
+//  Created by D D on 2017-04-12.
 //  Copyright © 2017 D D. All rights reserved.
 //
 
@@ -20,5 +20,6 @@ extension Commit {
     @NSManaged public var message: String
     @NSManaged public var sha: String
     @NSManaged public var url: String
+    @NSManaged public var author: Author
 
 }

@@ -17,6 +17,8 @@
 		59303F2E1E9C9062004E35B3 /* Project38.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 59303F2B1E9C8CCF004E35B3 /* Project38.xcdatamodeld */; };
 		59303F311E9C914B004E35B3 /* Commit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59303F2F1E9C914B004E35B3 /* Commit+CoreDataClass.swift */; };
 		59303F321E9C914B004E35B3 /* Commit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59303F301E9C914B004E35B3 /* Commit+CoreDataProperties.swift */; };
+		599256561E9EB6C30073AB27 /* Author+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599256541E9EB6C30073AB27 /* Author+CoreDataClass.swift */; };
+		599256571E9EB6C30073AB27 /* Author+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599256551E9EB6C30073AB27 /* Author+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		59303F2C1E9C8CCF004E35B3 /* Project38.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project38.xcdatamodel; sourceTree = "<group>"; };
 		59303F2F1E9C914B004E35B3 /* Commit+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Commit+CoreDataClass.swift"; sourceTree = "<group>"; };
 		59303F301E9C914B004E35B3 /* Commit+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Commit+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		599256541E9EB6C30073AB27 /* Author+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataClass.swift"; sourceTree = "<group>"; };
+		599256551E9EB6C30073AB27 /* Author+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 		59303F141E9C8AF1004E35B3 /* Project38 */ = {
 			isa = PBXGroup;
 			children = (
+				599256541E9EB6C30073AB27 /* Author+CoreDataClass.swift */,
+				599256551E9EB6C30073AB27 /* Author+CoreDataProperties.swift */,
 				59303F2F1E9C914B004E35B3 /* Commit+CoreDataClass.swift */,
 				59303F301E9C914B004E35B3 /* Commit+CoreDataProperties.swift */,
 				59303F271E9C8B1A004E35B3 /* SwiftyJSON.swift */,
@@ -154,8 +160,10 @@
 			files = (
 				59303F311E9C914B004E35B3 /* Commit+CoreDataClass.swift in Sources */,
 				59303F281E9C8B1A004E35B3 /* SwiftyJSON.swift in Sources */,
+				599256571E9EB6C30073AB27 /* Author+CoreDataProperties.swift in Sources */,
 				59303F321E9C914B004E35B3 /* Commit+CoreDataProperties.swift in Sources */,
 				59303F2E1E9C9062004E35B3 /* Project38.xcdatamodeld in Sources */,
+				599256561E9EB6C30073AB27 /* Author+CoreDataClass.swift in Sources */,
 				59303F181E9C8AF1004E35B3 /* ViewController.swift in Sources */,
 				59303F161E9C8AF1004E35B3 /* AppDelegate.swift in Sources */,
 				59303F2A1E9C8C38004E35B3 /* DetailViewController.swift in Sources */,
@@ -324,6 +332,7 @@
 				59303F261E9C8AF1004E35B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
