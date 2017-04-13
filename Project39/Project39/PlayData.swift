@@ -43,6 +43,7 @@ class PlayData {
                 let sorted = wordCounts.allObjects.sorted { wordCounts.count(for: $0) > wordCounts.count(for: $1) }
                 allWords = sorted as! [String]
                 
+                applyUserFilter("swift")
             }
         }
     }

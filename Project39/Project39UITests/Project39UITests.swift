@@ -28,9 +28,26 @@ class Project39UITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testInitialStateIsCorrect() {
+        //  The .tables references all the tables we have.  However, we only have one
+        //  so we are ok.  However, if have more then this would return an array and
+        //  we would then have to do more with it
+        let table = XCUIApplication().tables
+        XCTAssertEqual(table.cells.count, 7, "There should be 7 rows initially")
     }
     
+    func testUserFilteringByString() {
+        
+        //  All this was written by pressing the record button at the bottom of the Xcode screen
+        //  It recorded the actions I took so I can write the test
+        let app = XCUIApplication()
+        app.navigationBars["Shakespeare"].buttons["Search"].tap()
+        
+        let filterAlert = app.alerts["Filter..."]
+        filterAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element.typeText("test")
+        filterAlert.buttons["Filter"].tap()
+        
+        //  Now I added this myself to test the result of the above
+        XCTAssertEqual(app.tables.cells.count, 56, "There should be 56 words matching 'test'")
+    }
 }
